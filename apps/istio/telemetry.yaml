@@ -1,0 +1,11 @@
+---
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: otel-grafana-cloud
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: otel-grafana-cloud
+    randomSamplingPercentage: 100

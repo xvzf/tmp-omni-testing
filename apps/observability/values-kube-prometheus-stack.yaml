@@ -1,0 +1,35 @@
+crds:
+  enabled: true
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "53000"
+      omni-kube-service-exposer.sidero.dev/label: Grafana
+
+  additionalDataSources:
+  - name: loki
+    access: proxy
+    type: loki
+    url: http://loki-stack.loki-system.svc:3100
+    jsonData:
+      timeout: 60
+      maxLines: 1000
+  - name: tempo
+    type: tempo
+    url: http://temp.tempo-system.svc:3200
+    access: proxy
+    basicAuth: false
+prometheus:
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "59090"
+      omni-kube-service-exposer.sidero.dev/label: Prometheus
+  prometheusSpec:
+    requests:
+      memory: 24Gi
+      cpu: 8000m
+    scrapeInterval: "2s"
+    scrapeTimeout: "1s"
+    maximumStartupDurationSeconds: 60

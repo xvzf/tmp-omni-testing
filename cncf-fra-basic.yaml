@@ -1,0 +1,27 @@
+kind: Cluster
+name: cncf-fra-basic
+kubernetes:
+  version: v1.33.1
+talos:
+  version: v1.10.2
+features:
+  enableWorkloadProxy: true
+  backupConfiguration:
+    interval: 1h
+patches:
+  - name: kube-proxy-iptables
+    file: patches/kube-proxy-iptables/kube-proxy-iptables.yaml
+  - name: local-path-provisioner
+    file: patches/local-path-provisioner/local-path-provisioner.yaml
+  - name: metrics-server
+    file: patches/metrics-server/metrics-server.yaml
+---
+kind: ControlPlane
+machineClass:
+  name: lxd-amd64-16c-64g-128g-nvme
+  size: 1
+---
+kind: Workers
+machineClass:
+  name: lxd-amd64-16c-64g-128g-nvme
+  size: 3
